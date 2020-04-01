@@ -1,4 +1,5 @@
-#File Manager
+# File Manager
+
 This application is for managing log files. Its main functions are renaming, creating target folder and copying relevant log files into the appropriate folder.
 Created 2019
 
@@ -9,7 +10,7 @@ Still working on it
 This app accepts path to an target folder containing the log files and proceeds to work its magic.
 
 ## To do
-Polish GUI
-Add choose folder path function
-Add log and feedback function
-Add options/configurations function to menu
+ Polish GUI
+ Add choose folder path function
+ Add log and feedback function
+ Add options/configurations function to menu

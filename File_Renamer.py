@@ -5,16 +5,19 @@ from tkinter import *
 
 root = Tk()
 frame = Frame(root)
-frame.pack(padx=100, pady=50)
+frame.pack(padx=200, pady=100)
 
 label1 = Label(frame, text='Logfiles Folder Path', fg='black', bg='grey')
 logfiles_folder = Entry(frame)
-button1 = Button(frame, text='Execute', fg='black', bg='gray', command=lambda: execute(logfiles_folder.get()))  #runs execute fuction
+button1 = Button(frame, text='Execute', fg='black', bg='gray', command=lambda: execute(logfiles_folder.get()))
+button2 = Button(frame, text='Quit', fg='black', bg='gray', command=root.destroy).pack(side=BOTTOM)
+
 
 
 label1.pack(expand=TRUE, fill=X)
 button1.pack(side=BOTTOM)
 logfiles_folder.pack(side=LEFT)
+
 
 # *****menu**********
 menu = Menu(frame)
@@ -48,6 +51,10 @@ def create_folders(x):
     global glo_folder
     glo_folder = x.split('\\')[-1] + ' GLO'
 
+#    for f in os.listdir(x):
+#      try:
+ #           os.makedirs(mtn_folder/f/'MOC', exist_ok=False)
+
     try:
         os.makedirs(mtn_folder, exist_ok=False)
         os.makedirs(voda_folder, exist_ok=False)
@@ -60,49 +67,51 @@ def create_folders(x):
 
 def rename_files_voice(x):
 
-    for f in os.listdir(x):
-        file_name, file_ext = os.path.splitext(f)
+    for file in os.listdir(x):
+        file_name, file_ext = os.path.splitext(file)
+        full_path = os.path.join(x).split('\\')[-1]+'_'+ os.path.join(x).split('\\')[-2]
         if file_name[-2:] == '.1':
-            os.rename(f, 'MTN MOC '+f)
+            os.rename(file, full_path+' MTN MOC '+file)
         elif file_name[-2:] == '.2':
-            os.rename(f, 'VODA MOC '+f)
+            os.rename(file, full_path+' VODA MOC '+file)
         elif file_name[-2:] == '.3':
-            os.rename(f, 'AT MOC '+f)
+            os.rename(file, full_path+' AT MOC '+file)
         elif file_name[-2:] == '.4':
-            os.rename(f, 'GLO MOC '+f)
+            os.rename(file, full_path+' GLO MOC '+file)
         elif file_name[-2:] == '.5':
-            os.rename(f, 'MTN MTC '+f)
+            os.rename(file, full_path+' MTN MTC '+file)
         elif file_name[-2:] == '.6':
-            os.rename(f, 'VODA MTC '+f)
+            os.rename(file, full_path+' VODA MTC '+file)
         elif file_name[-2:] == '.7':
-            os.rename(f, 'AT MTC '+f)
+            os.rename(file, full_path+' AT MTC '+file)
         elif file_name[-2:] == '.8':
-            os.rename(f, 'GLO MTC '+f)
+            os.rename(file, full_path+' GLO MTC '+file)
         elif file_name[-2:] == '.9':
-            os.rename(f, 'MTN 3G '+f)
+            os.rename(file, full_path+' MTN 3G '+file)
         elif file_name[-2:] == '10':
-            os.rename(f, 'VODA 3G '+f)
+            os.rename(file, full_path+' VODA 3G '+file)
         elif file_name[-2:] == '11':
-            os.rename(f, 'AT 3G '+f)
+            os.rename(file, full_path+' VODA 3G '+file)
         elif file_name[-2:] == '12':
-            os.rename(f, 'GLO 3G ' + f)
+            os.rename(file, full_path+' GLO 3G '+file)
         elif file_name[-2:] == '13':
-            os.rename(f, 'MTN 4G ' + f)
+            os.rename(file, full_path+' MTN 4G '+file)
 
 
 def rename_files_data(x):
-    for f in os.listdir(x):
-        file_name, file_ext = os.path.splitext(f)
+    for file in os.listdir(x):
+        file_name, file_ext = os.path.splitext(file)
+        full_path = os.path.join(x).split('\\')[-1] + str('_') + os.path.join(x).split('\\')[-2]
         if file_name[-2:] == '.1':
-            os.rename(f, 'MTN Data '+f)
+            os.rename(file, full_path + ' MTN Data ' + file)
         elif file_name[-2:] == '.2':
-            os.rename(f, 'VODA Data '+f)
+            os.rename(file, full_path + ' Voda Data ' + file)
         elif file_name[-2:] == '.3':
-            os.rename(f, 'AT Data '+f)
+            os.rename(file, full_path + ' AT Data ' + file)
         elif file_name[-2:] == '.4':
-            os.rename(f, 'GLO Data '+f)
+            os.rename(file, full_path + ' Glo Data ' + file)
         elif file_name[-2:] == '.5':
-            os.rename(f, '4G Data ' + f)
+            os.rename(file, full_path + ' MTN 4G Data ' + file)
 
 
 def move_files(x):
@@ -118,7 +127,7 @@ def move_files(x):
             shutil.move(os.path.abspath(f), os.path.abspath(glo_folder))
 
 
-# logfiles_folder = 'C:\\Users\\NCA\\Desktop\\Logfiles'  # input(str('Enter Logfiles Folder Address: '))
+#logfiles_folder = 'C:\\Users\\NCA\\Desktop\\Logfiles'  # input(str('Enter Logfiles Folder Address: '))
 
 
 def execute(x):
@@ -129,15 +138,15 @@ def execute(x):
                 current_folder = os.path.join(paths, folder)
                 os.chdir(current_folder)
                 rename_files_voice(current_folder)
-                create_folders(current_folder)
-                move_files(current_folder)
+#                create_folders(current_folder)
+ #               move_files(current_folder)
 
             elif folder == 'Data' or folder == 'data':
                 current_folder = os.path.join(paths, folder)
                 os.chdir(current_folder)
                 rename_files_voice(current_folder)
-                create_folders(current_folder)
-                move_files(current_folder)
+  #              create_folders(current_folder)
+   #             move_files(current_folder)
 
 
 # *****widgets*****

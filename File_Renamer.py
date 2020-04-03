@@ -42,28 +42,22 @@ toolbar.pack(side=TOP, fill=X)
 
 
 def create_folders(x):
-    global mtn_folder
-    mtn_folder = x.split('\\')[-1] + ' MTN'
-    global voda_folder
-    voda_folder = x.split('\\')[-1] + ' VODA'
-    global at_folder
-    at_folder = x.split('\\')[-1] + ' AT'
-    global glo_folder
-    glo_folder = x.split('\\')[-1] + ' GLO'
 
-#    for f in os.listdir(x):
-#      try:
- #           os.makedirs(mtn_folder/f/'MOC', exist_ok=False)
+    for paths, dirs, files in os.walk(x):
+        districts = next(os.walk(x))[1]
 
-    try:
-        os.makedirs(mtn_folder, exist_ok=False)
-        os.makedirs(voda_folder, exist_ok=False)
-        os.makedirs(at_folder, exist_ok=False)
-        os.makedirs(glo_folder, exist_ok=False)
+    MNOs = ['MTN', 'Voda', 'AT', 'Glo']
+    Services_Folders = ['MOC', 'MTC', '3G_Coverage', '4G Coverage', '3G Data', '4G Data']
 
-    except FileExistsError:
-        return
+    for network in MNOs:
+        for location in districts:
+            for folder in Services_Folders:
+                parent = os.path.join(x, network, network+'_'+location, network+'_'+location+'_'+folder)
+                try:
+                    os.makedirs(parent)
 
+                except FileExistsError:
+                    return
 
 def rename_files_voice(x):
 
@@ -132,20 +126,20 @@ def move_files(x):
 
 def execute(x):
 
+    create_folders(x)
+
     for paths, dirs, files in os.walk(x):
        for folder in dirs:
             if folder == 'Voice' or folder == 'voice:':
                 current_folder = os.path.join(paths, folder)
                 os.chdir(current_folder)
-                rename_files_voice(current_folder)
-#                create_folders(current_folder)
+#                rename_files_voice(current_folder)
  #               move_files(current_folder)
 
             elif folder == 'Data' or folder == 'data':
                 current_folder = os.path.join(paths, folder)
                 os.chdir(current_folder)
-                rename_files_voice(current_folder)
-  #              create_folders(current_folder)
+  #              rename_files_data(current_folder)
    #             move_files(current_folder)
 
 

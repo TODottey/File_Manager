@@ -46,8 +46,8 @@ def create_folders(x):
     for paths, dirs, files in os.walk(x):
         districts = next(os.walk(x))[1]
 
-    MNOs = ['MTN', 'Voda', 'AT', 'Glo']
-    Services_Folders = ['MOC', 'MTC', '3G_Coverage', '4G Coverage', '3G Data', '4G Data']
+    MNOs = ['_MTN', '_Voda', '_AT', '_Glo']
+    Services_Folders = ['MOC', 'MTC', '3G Coverage', '4G Coverage', '3G Data', '4G Data']
 
     for network in MNOs:
         for location in districts:
@@ -63,65 +63,80 @@ def rename_files_voice(x):
 
     for file in os.listdir(x):
         file_name, file_ext = os.path.splitext(file)
-        full_path = os.path.join(x).split('\\')[-1]+'_'+ os.path.join(x).split('\\')[-2]
+        full_path = os.path.abspath(x).split('\\')[-2]+'_'+ os.path.abspath(x).split('\\')[-1]+'_'+os.path.abspath(x).split('\\')[-3]
         if file_name[-2:] == '.1':
-            os.rename(file, full_path+' MTN MOC '+file)
+            os.rename(file, full_path+'_MTN_MOC_'+file)
         elif file_name[-2:] == '.2':
-            os.rename(file, full_path+' VODA MOC '+file)
+            os.rename(file, full_path+'_VODA_MOC_'+file)
         elif file_name[-2:] == '.3':
-            os.rename(file, full_path+' AT MOC '+file)
+            os.rename(file, full_path+'_AT_MOC_'+file)
         elif file_name[-2:] == '.4':
-            os.rename(file, full_path+' GLO MOC '+file)
+            os.rename(file, full_path+'_GLO_MOC_'+file)
         elif file_name[-2:] == '.5':
-            os.rename(file, full_path+' MTN MTC '+file)
+            os.rename(file, full_path+'_MTN_MTC_'+file)
         elif file_name[-2:] == '.6':
-            os.rename(file, full_path+' VODA MTC '+file)
+            os.rename(file, full_path+'_VODA_MTC_'+file)
         elif file_name[-2:] == '.7':
-            os.rename(file, full_path+' AT MTC '+file)
+            os.rename(file, full_path+'_AT_MTC_'+file)
         elif file_name[-2:] == '.8':
-            os.rename(file, full_path+' GLO MTC '+file)
+            os.rename(file, full_path+'_GLO_MTC_'+file)
         elif file_name[-2:] == '.9':
-            os.rename(file, full_path+' MTN 3G '+file)
+            os.rename(file, full_path+'_MTN_3G Coverage_'+file)
         elif file_name[-2:] == '10':
-            os.rename(file, full_path+' VODA 3G '+file)
+            os.rename(file, full_path+'_VODA_3G Coverage_'+file)
         elif file_name[-2:] == '11':
-            os.rename(file, full_path+' VODA 3G '+file)
+            os.rename(file, full_path+'_AT_3G Coverage_'+file)
         elif file_name[-2:] == '12':
-            os.rename(file, full_path+' GLO 3G '+file)
+            os.rename(file, full_path+'_GLO_3G Coverage_'+file)
         elif file_name[-2:] == '13':
-            os.rename(file, full_path+' MTN 4G '+file)
+            os.rename(file, full_path+'_MTN_4G Coverage_'+file)
 
 
 def rename_files_data(x):
     for file in os.listdir(x):
         file_name, file_ext = os.path.splitext(file)
-        full_path = os.path.join(x).split('\\')[-1] + str('_') + os.path.join(x).split('\\')[-2]
+        full_path = os.path.abspath(x).split('\\')[-2]+'_'+ os.path.abspath(x).split('\\')[-1]+'_'+os.path.abspath(x).split('\\')[-3]
         if file_name[-2:] == '.1':
-            os.rename(file, full_path + ' MTN Data ' + file)
+            os.rename(file, full_path + '_MTN_3G Data_' + file)
         elif file_name[-2:] == '.2':
-            os.rename(file, full_path + ' Voda Data ' + file)
+            os.rename(file, full_path + '_Voda_3G Data_' + file)
         elif file_name[-2:] == '.3':
-            os.rename(file, full_path + ' AT Data ' + file)
+            os.rename(file, full_path + '_AT_3G Data_' + file)
         elif file_name[-2:] == '.4':
-            os.rename(file, full_path + ' Glo Data ' + file)
+            os.rename(file, full_path + '_Glo_3G Data_' + file)
         elif file_name[-2:] == '.5':
-            os.rename(file, full_path + ' MTN 4G Data ' + file)
+            os.rename(file, full_path + '_MTN_4G Data_' + file)
 
 
-def move_files(x):
-
-    for f in os.listdir(x):
-        if f.startswith('MTN'):
-            shutil.move(os.path.abspath(f), os.path.abspath(mtn_folder))
-        elif f.startswith('VODA'):
-            shutil.move(os.path.abspath(f), os.path.abspath(voda_folder))
-        elif f.startswith('AT'):
-            shutil.move(os.path.abspath(f), os.path.abspath(at_folder))
-        elif f.startswith('GLO'):
-            shutil.move(os.path.abspath(f), os.path.abspath(glo_folder))
+def get_file_list(x):
+    global file_list
+    file_list = []
+    for paths, folder, files in os.walk(x):
+        for file in files:
+            file_list.append(os.path.join(paths, file))
 
 
-#logfiles_folder = 'C:\\Users\\NCA\\Desktop\\Logfiles'  # input(str('Enter Logfiles Folder Address: '))
+def get_folder_list(x):
+    global folder_list
+    folder_list = []
+    for paths, folders, files in os.walk(x):
+        for folder in folders:
+            folder_name = folder.split("_")[-3:]
+            if len(folder_name) >= 3:
+                folder_list.append(os.path.join(paths, folder))
+
+
+def match_files_folders(x):
+    for file in file_list:
+        file_name = file.split("_")[2:5]
+        file_name.sort()
+        for folder in folder_list:
+            folder_name_string = folder.split("\\")[-1]
+            folder_name = folder_name_string.split('_')
+            folder_name.sort()
+            if file_name == folder_name:
+                shutil.move(file, folder)
+                break
 
 
 def execute(x):
@@ -133,15 +148,16 @@ def execute(x):
             if folder == 'Voice' or folder == 'voice:':
                 current_folder = os.path.join(paths, folder)
                 os.chdir(current_folder)
-#                rename_files_voice(current_folder)
- #               move_files(current_folder)
+                rename_files_voice(current_folder)
 
             elif folder == 'Data' or folder == 'data':
                 current_folder = os.path.join(paths, folder)
                 os.chdir(current_folder)
-  #              rename_files_data(current_folder)
-   #             move_files(current_folder)
+                rename_files_data(current_folder)
 
+    get_file_list(x)
+    get_folder_list(x)
+    match_files_folders(x)
 
 # *****widgets*****
 

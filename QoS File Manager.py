@@ -41,16 +41,14 @@ toolbar.pack(side=TOP, fill=X)
 
 
 def create_folders(x):
-    for paths, dirs, files in os.walk(x):
-        districts = next(os.walk(x))[1]
     global MNOs
     MNOs = ['MTN', 'Vodafone', 'AirtelTigo', 'Glo']
     Services_Folders = ['MOC', 'MTC', '3GCov', '4GCov', '3GData', '4GData']
 
     for network in MNOs:
-        for location in districts:
+        for location in Districts:
             for folder in Services_Folders:
-                parent = os.path.join(x, network, location, location + network + folder)
+                parent = os.path.join(x, network, location, location + " " + network + folder)
                 try:
                     os.makedirs(parent)
 
@@ -63,7 +61,7 @@ def rename_files_voice(filename_path):
     filename = filename_path.name
     for w in voicedictionary:
         if filename.endswith(w):
-            new = district_name + voicedictionary[w] + " " + new_address_1 + " " + filename
+            new = district_name + " " + voicedictionary[w] + " " + new_address_1 + " " + filename
             filename_path.rename(Path(filename_path.parent, new))
             break
 
@@ -73,7 +71,7 @@ def rename_files_data(filename_path):
     filename = filename_path.name
     for w in datadictionary:
         if filename.endswith(w):
-            new = district_name + datadictionary[w] + " " + new_address_1 + " " + filename
+            new = district_name + " " + datadictionary[w] + " " + new_address_1 + " " + filename
             filename_path.rename(Path(filename_path.parent, new))
             break
 
@@ -118,6 +116,9 @@ def execute(x):
     global new_address_1
     global datadictionary
     global voicedictionary
+    global Districts
+    global non_districts
+
 
     voicedictionary = {".1.nmf": "MTNMOC", ".2.nmf": "VodafoneMOC", ".3.nmf": "AirtelTigoMOC",
                        ".4.nmf": "GloMTC", ".5.nmf": "MTNMTC", ".6.nmf": "VodafoneMTC",
@@ -130,7 +131,54 @@ def execute(x):
                       ".4.nmf": "Glo3GData", ".4.pcap": "Glo3GData", ".5.nmf": "MTN4GData", ".5.pcap": "MTN4GData",
                       ".6.nmf": "Vodafone4GData", ".6.pcap": "Vodafone4GData"}
 
+    districts_list = ['Goaso', 'Kukuom', 'Kenyasi', 'Hwidiem', 'Duayaw', 'Nkwanta', 'Bechem', 'Adansi Asokwa',
+                       'Akrofuom', 'Asokwa', 'Barekese', 'Boamang', 'Juaben', 'Kwadaso', 'Manso Adubia',
+                        'Oforikrom', 'Old Tafo', 'Tafo', 'Suame', 'Tutuka', 'Twedie', 'Effiduase', 'Fomena', 'NewEdubiase',
+                        'Kodie', 'Tepa', 'Mankranso', 'Jacobu', 'Manso Nkwanta', 'Konongo', 'Agogo',
+                        'Juaso', 'Asokore Mampong', 'Nyinahin', 'Nkawie', 'Bekwai', 'Asiwa', 'Kuntanse', 'Ejisu',
+                        'Ejura', 'Kumasi', 'Mamponteng', 'Mampong', 'Obuasi', 'Offinso', 'Akomadan', 'Drobonso', 'Nsuta', 
+                        'Kumawu', 'Agona', 'Dwinyame', 'Adugyama', 'Jinijini', 'Banda Ahenkro', 'Berekum', 'Dormaa',
+                        'Wemfie', 'Nkrankwanta', 'Sampa', 'Drobo', 'Sunyani', 'Odomasi', 'Nsawkaw', 'Wenchi', 'Prang', 
+                        'Atebubu', 'Kintampo', 'Jema', 'Nkoranza', 'Busunya', 'Yeji', 'Kajaji', 'Kwame Danso', 'Techiman',
+                        'Tuoabodom', 'Assin Bereku', 'Potsin', 'Dunkwa', 'Nsaba', 'Swedru', 'Ajumako', 'Breman Asikuma',
+                        'Assin Fosu', 'Nsuaem-Kyekyewere', 'Kasoa', 'Awutu Breku', 'Cape Coast', 'Winneba', 'Apam',
+                        'Afransi', 'Essarkyir', 'Elmina', 'Saltpond', 'Twifo Praso', 'Hemang', 'Dunkwa-On-Offin', 'Diaso',
+                        'Achiase', 'Adukrom', 'Anyinam', 'Effiduase', 'Kukurantumi', 'Manso', 'Osino', 'Akropong', 'Aburi', 
+                        'Ofoase', 'Atimpoku', 'Kwabeng', 'Coaltar', 'Akim Oda', 'New Abirim', 'Akim Swedru', 'Akwatia',
+                        'Kibi', 'Begoro', 'Kade', 'Donkorkrom', 'Tease', 'Abetifi', 'Mpraeso', 'Nkawkaw', 'Odumase', 'Koforidua', 
+                        'Nsawam', 'Suhum', 'Asesewa', 'Adeiso', 'Asamankese', 'Somanya', 'Accra New Town', 'Dansoman', 'Darkuman',
+                        'Dzorwulu', 'Kokomlemle', 'Lartebiokorshie', 'Ngleshie Amanfro', 'Nima', 'Nungua', 'Ofankor', 'Osu', 'Tema Community 18',
+                        'Tesano', 'Accra', 'Sege', 'Ada Foah', 'Adenta', 'Ashaima', 'Sowutuom', 'Abokobi', 'Amasaman',
+                        'La', 'Teshie', 'Madina', 'Prampram', 'Dodowa', 'Tema', 'Kpone', 'Weija', 'Yunyoo', 'Bunkpurugu', 'Chereponi', 'Gambaga', 
+                        'Yagaba', 'Walewale', 'Nanton', 'Gushegu', 'Karaga', 'Kpandai', 'Kumbungu', 'Sang', 'Bimbilla', 'Wulensi', 'Saboba', 
+                        'Sagnarigu', 'Savelugu', 'Tamale', 'Tatale', 'Tolon', 'Yendi', 'Zabzugu', 'Nkonya', 'Jasikan', 'Kadjebi', 'Dambai', 'Chinderi', 
+                        'Kete Krachi', 'Kpassa', 'Nkwanta', 'Kpalbe', 'Bole', 'Buipe', 'Salaga', 'Daboya', 'Sawla', 'Damango', 'Tempane', 'Zuarugu',
+                        'Bawku', 'Zebilla', 'Binduri', 'Bolgatanga', 'Bongo', 'Sandema', 'Fumbisi', 'Garu', 'Navrongo', 'Paga', 'Nangodi', 'Pusiga', 
+                        'Tongo', 'Issa', 'Jirapa', 'Lambussie', 'Lawra', 'Nadowli', 'Nandom', 'Tumu', 'Gwollu', 'Funsi', 'Wa', 'Weichiau', 'Anloga', 
+                        'Adaklu Waya', 'Ve-Golokwati', 'Kpetoe', 'Ave', 'Dakpa', 'Akatsi', 'Adidome', 'Ho', 'Dzolokpuita', 'Hohoe', 'Keta', 'Dzodze',
+                        'Denu', 'Kpando', 'Anfeoga', 'Battor Dugame', 'Kpeve', 'Sogakope', 'Kwesimintsim', 'Agona Ahanta', 'Manso Amenfi',
+                        'Wassa-Akropong', 'Asankrangwa', 'Nkroful', 'Half Assini', 'Mpohor', 'Axim', 'Prestea', 'Sekondi', 'Shama', 'Tarkwa', 'Daboase',
+                        'Enchi', 'Adabokrom', 'Essam', 'Bibiani', 'Bodi', 'Juaboso', 'Akontombra', 'Wiawso', 'Dadieso']
+
     files = glob.glob(x + "/**/*.nmf", recursive=True)
+
+    for paths, dirs, f in os.walk(x):
+        Districts = next(os.walk(x))[1]
+
+    non_districts = []
+
+    for d in Districts:
+        if d not in districts_list:
+            non_districts.append(d)
+
+
+    if len(non_districts) > 0:
+        root = Tk()
+        for r in non_districts:
+            label = Label(root, text=str(r + ' is not a district, please check spelling!'))
+            label.pack()
+        root.mainloop()
+        exit()
 
     create_folders(x)
 
@@ -162,7 +210,7 @@ def execute(x):
     for file in file_list:
         file_path = Path(file)
         file_path_stem = file_path.stem
-        file_string = file_path_stem.split(" ")[0]
+        file_string = file_path_stem.split(" ")[0] + " " + file_path_stem.split(" ")[1]
         for folder in folder_list:
             folder_path = Path(folder)
             folder_path_stem = folder_path.stem

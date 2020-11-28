@@ -1,6 +1,5 @@
 # File Manager
-
-This application is for two purposes. these are
+This application is for two purposes. These are
 1. Managing log files: are renaming, creating target folder and copying relevant log files into the appropriate folder.
   Uses the pathlib package heavily
 2.Generating Coverage maps

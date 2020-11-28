@@ -1,10 +1,16 @@
 # File Manager
 
-This application is for managing log files. Its main functions are renaming, creating target folder and copying relevant log files into the appropriate folder.
+This application is for two purposes. these are
+1. Managing log files: are renaming, creating target folder and copying relevant log files into the appropriate folder.
+  Uses the pathlib package heavily
+2.Generating Coverage maps
+  Uses folium and branca for the mapping and generating a legend
+  
 Created 2019
+Last Update == 11/2020
 
 ## Installation
-Still working on it
+Installable created using pyinstaller. Available upon request
 
 ## Usage
 This app accepts path to an target folder containing the log files and proceeds to work its magic.

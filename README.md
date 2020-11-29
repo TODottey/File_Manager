@@ -1,7 +1,7 @@
 # File Manager
 This application is for two purposes. These are
 1. Managing log files: are renaming, creating target folder and copying relevant log files into the appropriate folder.
-  Uses the pathlib package heavily
+  Uses the pathlib and os packages
 2.Generating Coverage maps
   Uses folium and branca for the mapping and generating a legend
   
